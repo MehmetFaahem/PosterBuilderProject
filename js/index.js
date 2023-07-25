@@ -118,11 +118,31 @@ document.addEventListener("DOMContentLoaded", function () {
   downloadButton.addEventListener("click", function () {
     const sectionToCapture = document.getElementById("capture");
 
-    domtoimage.toBlob(sectionToCapture).then(function (blob) {
-      const downloadLink = document.createElement("a");
-      downloadLink.href = URL.createObjectURL(blob);
-      downloadLink.download = "capture.png";
-      downloadLink.click();
-    });
+    const canvas = document.createElement("canvas");
+    canvas.width = sectionToCapture.offsetWidth;
+    canvas.height = sectionToCapture.offsetHeight;
+    const ctx = canvas.getContext("2d");
+
+    const img = new Image();
+    img.onload = function () {
+      ctx.drawImage(img, 0, 0);
+
+      canvas.toBlob(function (blob) {
+        const downloadLink = document.createElement("a");
+        downloadLink.href = URL.createObjectURL(blob);
+        downloadLink.download = "section_capture.png";
+
+        downloadLink.click();
+
+        URL.revokeObjectURL(downloadLink.href);
+      }, "image/png");
+    };
+
+    const sectionHTML = new XMLSerializer().serializeToString(sectionToCapture);
+    img.src =
+      "data:image/svg+xml;charset=utf-8," + encodeURIComponent(sectionHTML);
+    console.log(
+      "data:image/svg+xml;charset=utf-8," + encodeURIComponent(sectionHTML)
+    );
   });
 });
