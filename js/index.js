@@ -64,12 +64,12 @@ DownloadButton.innerText = "Download as PNG";
 DownloadButton.className = "p-2 mt-3 bg-slate-700 text-white font-light";
 DownloadButton.id = "download-btn";
 
-const CaptureSection = document.createElement("section");
+const CaptureSection = document.createElement("div");
 CaptureSection.appendChild(HeadingPreview);
 CaptureSection.appendChild(ImagePreview);
 CaptureSection.appendChild(DesPreview);
 CaptureSection.className = "flex flex-col";
-CaptureSection.id = "capture";
+CaptureSection.id = "capture-section";
 
 document.body.appendChild(mainDiv);
 mainDiv.appendChild(BuilderSection);
@@ -116,27 +116,18 @@ document.addEventListener("DOMContentLoaded", function () {
   const downloadButton = document.getElementById("download-btn");
 
   downloadButton.addEventListener("click", function () {
-    const sectionToCapture = document.getElementById("capture");
+    const sectionToCapture = document.getElementById("capture-section");
 
-    const canvas = document.createElement("canvas");
-    canvas.width = sectionToCapture.offsetWidth;
-    canvas.height = sectionToCapture.offsetHeight;
-    const ctx = canvas.getContext("2d");
+    // Convert SVG to data URL
+    const svgData = new XMLSerializer().serializeToString(sectionToCapture);
+    const dataURL =
+      "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgData);
 
-    const img = new Image();
-    img.onload = function () {
-      ctx.drawImage(img, 0, 0);
-
-      canvas.toBlob(function (blob) {
-        const downloadLink = document.createElement("a");
-        downloadLink.href = URL.createObjectURL(blob);
-        downloadLink.download = "section_capture.png";
-
-        downloadLink.click();
-
-        URL.revokeObjectURL(downloadLink.href);
-      }, "image/png");
-    };
+    // Create a temporary link and trigger the download
+    const link = document.createElement("a");
+    link.download = "my_svg_image.svg";
+    link.href = dataURL;
+    link.click();
 
     const sectionHTML = new XMLSerializer().serializeToString(sectionToCapture);
     img.src =
