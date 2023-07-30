@@ -6,13 +6,16 @@ const BuilderSection = document.createElement("section");
 BuilderSection.className = "flex flex-col";
 const PreviewSection = document.createElement("section");
 
+// Custom style only for svg file
+PreviewSection.style.padding = "20px";
+
 const BuilderTitle = document.createElement("h1");
 BuilderTitle.textContent = "Poster Builder";
 BuilderTitle.className = "font-bold text-[22px] text-white";
 
 const BuilderTitlePreview = document.createElement("h1");
 BuilderTitlePreview.textContent = "Poster Preview";
-BuilderTitlePreview.className = "font-bold text-[22px] text-white";
+BuilderTitlePreview.className = "font-bold ml-[30px] text-[22px] text-white";
 
 const HeadingInput = document.createElement("textarea");
 HeadingInput.placeholder = "Heading";
@@ -49,19 +52,43 @@ const HeadingPreview = document.createElement("p");
 HeadingPreview.className =
   "w-[560px] text-[28px] flex place-self-center self-center mt-4 h-auto overflow-hidden text-white font-semibold";
 
+// Custom style only for svg file
+HeadingPreview.style.width = "500px";
+HeadingPreview.style.fontSize = "28px";
+HeadingPreview.style.height = "auto";
+HeadingPreview.style.fontWeight = "700px";
+HeadingPreview.style.paddingLeft = "20px";
+
 const DesPreview = document.createElement("p");
 DesPreview.className = `w-[560px] flex text-[20px] place-self-center self-center mt-4 h-auto overflow-hidden text-white font-light`;
 
+// Custom style only for svg file
+DesPreview.style.fontWeight = "400px";
+DesPreview.style.width = "500px";
+DesPreview.style.fontSize = "20px";
+DesPreview.style.marginTop = "20px";
+DesPreview.style.height = "auto";
+DesPreview.style.paddingLeft = "20px";
+
 const ImagePreview = document.createElement("img");
-ImagePreview.alt = "Selected Image Will be Shown Here";
-ImagePreview.src = "#";
+// ImagePreview.alt = "Selected Image Will be Shown Here";
+// ImagePreview.src = "#";
 ImagePreview.id = "outputImage";
 ImagePreview.className =
   "h-auto max-h-[300px] mt-8 object-fill object-center w-full rounded-lg";
 
+// Custom style only for svg file
+ImagePreview.style.width = "500px";
+ImagePreview.style.maxHeight = "400px";
+ImagePreview.style.marginTop = "20px";
+ImagePreview.style.borderRadius = "20px";
+ImagePreview.style.height = "auto";
+ImagePreview.style.marginLeft = "20px";
+
 const DownloadButton = document.createElement("button");
-DownloadButton.innerText = "Download as PNG";
-DownloadButton.className = "p-2 mt-3 bg-slate-700 text-white font-light";
+DownloadButton.innerText = "Download";
+DownloadButton.className =
+  "p-2 mt-3 ml-[30px] bg-slate-700 text-white font-light";
 DownloadButton.id = "download-btn";
 
 const CaptureSection = document.createElement("div");
@@ -123,15 +150,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const dataURL =
       "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgData);
 
-    // Create a temporary link and trigger the download
     const link = document.createElement("a");
-    link.download = "my_svg_image.svg";
+    link.download = "svg_image.svg";
     link.href = dataURL;
     link.click();
 
     const sectionHTML = new XMLSerializer().serializeToString(sectionToCapture);
-    img.src =
-      "data:image/svg+xml;charset=utf-8," + encodeURIComponent(sectionHTML);
+
     console.log(
       "data:image/svg+xml;charset=utf-8," + encodeURIComponent(sectionHTML)
     );
